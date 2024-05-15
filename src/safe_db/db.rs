@@ -18,6 +18,7 @@ impl DB {
             ..Default::default()
         };
         db.compute_edges();
+        println!("{} edges", db.edges.edge_count());
         db
     }
 

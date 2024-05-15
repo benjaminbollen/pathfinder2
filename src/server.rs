@@ -37,6 +37,7 @@ impl Display for InputValidationError {
 }
 
 fn validate_and_parse_ethereum_address(address: &str) -> Result<Address, Box<dyn Error>> {
+    // note: could be made static for performance?
     let re = Regex::new(r"^0x[0-9a-fA-F]{40}$").unwrap();
     if re.is_match(address) {
         Ok(Address::from(address))
@@ -69,6 +70,7 @@ fn validate_and_parse_u256(value_str: &str) -> Result<U256, Box<dyn Error>> {
 }
 
 pub fn start_server(listen_at: &str, queue_size: usize, threads: u64) {
+    // note: why this double arc ? seems complicated, think i see why
     let edges: Arc<RwLock<Arc<EdgeDB>>> = Arc::new(RwLock::new(Arc::new(EdgeDB::default())));
 
     let (sender, receiver) = mpsc::sync_channel(queue_size);

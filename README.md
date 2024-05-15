@@ -43,10 +43,10 @@ curl -X POST \
     "id": "timestamp_value",
     "method": "load_safes_binary",
     "params": {
-        "file": "/path/to/graph_at_20230523_15_00.db"
+        "file": "/Users/ben/Documents/circlesubi/pathfinder2/graph_at_20230523_15_00.db"
     }
 }' \
-  "http://<ip>:<port>"
+  "http://127.0.0.1:5000"
 ```
 afterward the server can be queried with the following command:
 ```shell
@@ -56,14 +56,14 @@ curl -X POST \
     "id": "timestamp_value",
     "method": "compute_transfer",
     "params": {
-        "from": "0x000...",
-        "to": "0x000...",
+        "from": "0x9BA1Bcd88E99d6E1E03252A70A63FEa83Bf1208c",
+        "to": "0x42cEDde51198D1773590311E2A340DC06B24cB37",
         "value": 999999999999,
         "iterative": false,
         "prune": true
     }
 }' \
-  "http://<ip>:<port>"
+  "http://127.0.0.1:5000"
 ```
 
 ### Using the CLI

@@ -13,7 +13,7 @@ mod flow;
 // from -A-> BalanceNode(from, token) -B-> TrustNode(to, token) -C-> to
 //
 // The capacities (A, B, C) are as follows:
-// A: the max of all capacity-netwok edges of the form (from, token, *), or A's balance of "token" tokens.
+// A: the max of all capacity-network edges of the form (from, token, *), or A's balance of "token" tokens.
 // B: the actual capacity of the capacity-network edge (from, token, to), or the "send limit" from "from" to "to" in "token" tokens
 // C: if "token" is C's token (this is a "send to owner" edge): infinity or the sum of all incoming edges.
 //    otherwise: the max of all capacity-network edges of the form (*, token, to) or the trust limit of "to" for "token" tokens.

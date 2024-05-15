@@ -7,6 +7,8 @@ use std::collections::{BTreeMap, HashSet};
 use std::collections::{HashMap, VecDeque};
 use std::fmt::Write;
 
+use std::time::Instant;
+
 pub fn compute_flow(
     source: &Address,
     sink: &Address,
@@ -15,12 +17,15 @@ pub fn compute_flow(
     max_distance: Option<u64>,
     max_transfers: Option<u64>,
 ) -> (U256, Vec<Edge>) {
+    let start_time = Instant::now();
+
     let mut adjacencies = Adjacencies::new(edges);
     let mut used_edges: HashMap<Node, HashMap<Node, U256>> = HashMap::new();
 
     let mut flow = U256::default();
     loop {
         let (new_flow, parents) = augmenting_path(source, sink, &mut adjacencies, max_distance);
+        // if new_flow is zero, break 
         if new_flow == U256::default() {
             break;
         }
@@ -29,6 +34,7 @@ pub fn compute_flow(
             if let [node, prev] = window {
                 adjacencies.adjust_capacity(prev, node, -new_flow);
                 adjacencies.adjust_capacity(node, prev, new_flow);
+                
                 if adjacencies.is_adjacent(node, prev) {
                     *used_edges
                         .entry(node.clone())
@@ -53,6 +59,12 @@ pub fn compute_flow(
         !out.is_empty()
     });
 
+    let elapsed_after_max_flow = start_time.elapsed();
+    println!(
+        "Elapsed after max flow: {}.{:03}",
+        elapsed_after_max_flow.as_secs(),
+        elapsed_after_max_flow.subsec_millis()
+    );
     println!("Max flow: {}", flow.to_decimal());
 
     if flow > requested_flow {

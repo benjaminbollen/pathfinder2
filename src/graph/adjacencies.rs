@@ -65,6 +65,7 @@ impl<'a> Adjacencies<'a> {
     #[allow(clippy::wrong_self_convention)]
     pub fn is_adjacent(&mut self, from: &Node, to: &Node) -> bool {
         // TODO More efficiently?
+        // note: we cache this lazily, but not over different requests
         if let Some(capacity) = self.adjacencies_from(from).get(to) {
             *capacity > U256::from(0)
         } else {
